@@ -60,6 +60,7 @@ int main(void)
 
 	// Init periphs
 	printf("Init Periphs\n");
+
 	srand((unsigned)time(NULL));
 	ledMatrixInit();
 	ledBarInit();
@@ -69,48 +70,21 @@ int main(void)
 	printf("Success\n");
 
 	// Startup tone
-	//buzPlaySuccess();
-	//ledBarSet(2, LED_ON);
-	//ledBarSet(3, LED_ON);
-	// int i = 0;
-
-	// while(1) {
-	// 	ledBarSet(i, LED_ON);
-	// 	delay(500);
-	// 	ledBarSet(i, LED_OFF);
-	// 	i++;
-	// 	if(i > 9)
-	// 		i = 0;
-	// }
-	
-
-	// while(1) {
-	// 	int dir = joystickWaitForDir();
-	// 	printf("Dir: %d\n", dir);
-	// 	delay(50);
-	// }
-
+	buzPlaySuccess();
 	delay(1000);
 
-	printf("Starting Game\n");
-	game();
+	printf("Initialized\n");
 
-	// TODO: Start menu animation.
-	//int inGame = 1;
+	while (1)
+	{
+		ledMatrixSetFrame(READY);
 
-	// while (1)
-	// {
-	// 	if (inGame)
-	// 	{
-	// 		game();
-	// 		inGame = 0;
-	// 	}
-	// 	else
-	// 	{
-	// 		startMenu();
-	// 		inGame = 1;
-	// 	}
-	// }
+		delay(50);
+		if (joystickZedDown())
+		{
+			game();
+		}
+	}
 
 	return 0;
 }
@@ -125,6 +99,9 @@ void startMenu() {}
 
 void game()
 {
+	printf("Starting Game\n");
+	buzPlayCountdown();
+
 	int currentLevel = 0;
 	int patternIndex = 0;
 	int expectedPattern[20] = {INVALID_PATTERN};
@@ -185,7 +162,6 @@ void game()
 
 		// Success! Increase level and update outputs.
 		currentLevel++;
-
 		buzPlaySuccess();
 
 		for (int i = 0; i < currentLevel; i++)
@@ -194,10 +170,11 @@ void game()
 		// TODO: Max level (10) handling.
 	}
 
-	delay(1000);
+	delay(3000);
 	ledBarClear();
 }
 
+// Displays an arrow LED matrix frame based on supplied pattern.
 void displayPattern(int pattern)
 {
 	printf("Showing pattern %d\n", pattern);

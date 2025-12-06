@@ -11,13 +11,12 @@ Bits are only read from the DATA pin on rising edges (low -> high)
 #include <wiringPi.h>
 #include <stdlib.h>
 
-// TODO: Define pins
 #define DATA 27
 #define CLK 28
 #define CS 29
 
 // The pin for the joystick zed button.
-#define JOYSTICK_Z 0
+#define JOYSTICK_Z 22
 
 #define X_CHANNEL 0
 #define Y_CHANNEL 1
@@ -40,6 +39,11 @@ void joystickInit()
     digitalWrite(CS, HIGH);
     digitalWrite(DATA, LOW);
     digitalWrite(CLK, LOW);
+}
+
+// Check if the joystick Zed button axis is pushed down.
+int joystickZedDown() {
+    return digitalRead(JOYSTICK_Z);
 }
 
 // Pauses the thread and waits for a joystick direction, returning it.

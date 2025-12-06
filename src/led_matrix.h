@@ -11,6 +11,7 @@ extern const int ARROW_RIGHT[SIZE][SIZE];
 extern const int ARROW_UP[SIZE][SIZE];
 extern const int ARROW_DOWN[SIZE][SIZE];
 extern const int INCORRECT[SIZE][SIZE];
+extern const int READY[SIZE][SIZE];
 
 void ledMatrixInit();
 void ledMatrixSetFrame(const int frame[8][8]);

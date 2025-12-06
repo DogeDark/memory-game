@@ -9,5 +9,6 @@ extern const int JOY_DOWN;
 void joystickInit();
 int joystickWaitForDir();
 void joystickWaitForCenter();
+int joystickZedDown();
 
 #endif
