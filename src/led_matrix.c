@@ -93,7 +93,6 @@ const int READY[8][8] = {
     {0, 0, 0, 0, 0, 0, 0, 0},
 };
 
-
 // Pin definitions
 #define LATCH 6
 #define CLK 10
@@ -155,15 +154,15 @@ static void workMatrixFrame(int frame[8][8])
 
     for (int row_i = 0; row_i < 8; row_i++)
     {
-        // Turn off all LEDs to make way for the next pixel.
-        pushByte(0);
-        pushByte(0);
-
         unsigned char row = 0b0;
         unsigned char col = 0b11111111;
 
         for (int col_i = 0; col_i < 8; col_i++)
         {
+            // Turn off all LEDs to make way for the next pixel.
+            pushByte(0);
+            pushByte(0);
+
             int cell = frame[row_i][col_i];
 
             // If the cell is enabled, we enable the row and col for the matrix.
@@ -229,7 +228,7 @@ static void workMatrixFrame(int frame[8][8])
                 pushByte(col);
 
                 // Wait so the LED has time to turn on.
-                delayMicroseconds(100);
+                delayMicroseconds(50);
             }
         }
     }

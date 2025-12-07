@@ -42,8 +42,8 @@ void ledBarInit()
     // Send two-byte command mode.
     pushByte(0);
     pushByte(0);
-    //shiftOut(DATA, CLK, MSBFIRST, 0);
-    //shiftOut(DATA, CLK, MSBFIRST, 0);
+    // shiftOut(DATA, CLK, MSBFIRST, 0);
+    // shiftOut(DATA, CLK, MSBFIRST, 0);
 
     ledBarClear();
 }
@@ -82,7 +82,7 @@ void ledBarRefresh()
     finalizeFrame();
 }
 
-static void startFrame() 
+static void startFrame()
 {
     pushByte(0);
     pushByte(0);
@@ -96,17 +96,16 @@ static void finalizeFrame()
     latch();
 }
 
-
 // Pushes a byte to the led bar.
 // We use 16 bit mode, so we "scale" the single byte into two in a non-linear way.
 static void pushByte(unsigned char byte)
 {
     // Merge the two bytes together to create 32 bits, with the last 16 unused, first 16 for two bytes.
-	unsigned char second_byte = byte;
-	unsigned int bits = (((unsigned int)byte << 8) | second_byte) << 16;
+    unsigned char second_byte = byte;
+    unsigned int bits = (((unsigned int)byte << 8) | second_byte) << 16;
 
     // Send the first 16 MSBs for two bytes.
-    for(int i = 0; i < 16; i++)
+    for (int i = 0; i < 16; i++)
     {
         digitalWrite(DATA, (bits & 0x80000000) ? HIGH : LOW);
         digitalWrite(CLK, !clkFlag);
@@ -123,7 +122,7 @@ static void latch()
     digitalWrite(DATA, LOW);
     delayMicroseconds(500);
 
-    for(int i = 0; i < 8; i++) 
+    for (int i = 0; i < 8; i++)
     {
         digitalWrite(DATA, LOW);
         delayMicroseconds(1);

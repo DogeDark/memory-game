@@ -75,13 +75,17 @@ int main(void)
 
 	printf("Initialized\n");
 
+	// Game loop
 	while (1)
 	{
+		// Set matrix to ready frame
 		ledMatrixSetFrame(READY);
+		delay(500);
 
-		delay(50);
+		// Check if joystick is held down, and if so, start game.
 		if (joystickZedDown())
 		{
+			printf("Joystick pressed, starting game.\n");
 			game();
 		}
 	}
@@ -128,6 +132,8 @@ void game()
 			// TODO: Increase this based on level.
 			delay(500);
 		}
+
+		ledMatrixSetFrame(BLANK);
 
 		// Test user's pattern memory skill
 		int failed = 0;

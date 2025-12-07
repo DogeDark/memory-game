@@ -23,6 +23,11 @@ This project is organized into a handful of files.
 ### Compiling
 This project is meant to be compiled on a Raspberry Pi. This has only been tested on an RPI 4B.
 
+Debug:
 ```bash
-gcc main.c led_matrix.c led_bar.c buzzer.c joystick.c -o game -lwiringPi -lpthread
+gcc src/main.c src/led_matrix.c src/led_bar.c src/buzzer.c src/joystick.c -o game -lwiringPi -lpthread
+```
+Release:
+```bash
+gcc src/main.c src/led_matrix.c src/led_bar.c src/buzzer.c src/joystick.c -o game -lwiringPi -lpthread -O3 -DNDEBUG -march=native -mtune=native
 ```

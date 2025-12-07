@@ -42,8 +42,9 @@ void joystickInit()
 }
 
 // Check if the joystick Zed button axis is pushed down.
-int joystickZedDown() {
-    return digitalRead(JOYSTICK_Z);
+int joystickZedDown()
+{
+    return !digitalRead(JOYSTICK_Z);
 }
 
 // Pauses the thread and waits for a joystick direction, returning it.
@@ -52,28 +53,30 @@ int joystickWaitForDir()
     unsigned char lastXSample = 128;
     unsigned char lastYSample = 128;
 
-    while(1) 
+    while (1)
     {
         unsigned char newXSample = readChannel(X_CHANNEL);
+        delay(25);
         unsigned char newYSample = readChannel(Y_CHANNEL);
+        delay(25);
 
         int xDiff = abs(lastXSample - newXSample);
         int yDiff = abs(lastYSample - newYSample);
 
         // Channel 0 (x) likes to jump to 255, so we ignore it.
-        if(xDiff <= 10 && newXSample != 255) 
+        if (xDiff <= 10 && newXSample != 255)
         {
-            if(newXSample > 240)
+            if (newXSample > 240)
                 return JOY_RIGHT;
-            else if(newXSample < 15) 
+            else if (newXSample < 15)
                 return JOY_LEFT;
         }
 
-        if(yDiff <= 10)
+        if (yDiff <= 10)
         {
-            if(newYSample > 240)
+            if (newYSample > 240)
                 return JOY_UP;
-            else if(newYSample < 15)
+            else if (newYSample < 15)
                 return JOY_DOWN;
         }
 
@@ -88,10 +91,12 @@ void joystickWaitForCenter()
     unsigned char lastXSample = 0;
     unsigned char lastYSample = 0;
 
-    while(1) 
+    while (1)
     {
         unsigned char newXSample = readChannel(X_CHANNEL);
+        delay(25);
         unsigned char newYSample = readChannel(Y_CHANNEL);
+        delay(25);
 
         int xDiff = abs(lastXSample - newXSample);
         int yDiff = abs(lastYSample - newYSample);
@@ -99,9 +104,9 @@ void joystickWaitForCenter()
         int xCentered = xDiff <= 10 && newXSample > 120 && newXSample < 130;
         int yCentered = yDiff <= 10 && newYSample > 120 && newXSample < 130;
 
-        if(xCentered && yCentered)
+        if (xCentered && yCentered)
             return;
-            
+
         lastXSample = newXSample;
         lastYSample = newYSample;
     }
@@ -117,8 +122,8 @@ static unsigned char readChannel(int channel)
     digitalWrite(CLK, LOW);
     digitalWrite(CS, LOW);
     delayMicroseconds(20);
-    sendBit(1); // Start bit
-    sendBit(1); // Mode Bit (single ended = 1)
+    sendBit(1);       // Start bit
+    sendBit(1);       // Mode Bit (single ended = 1)
     sendBit(channel); // Channel bit (0 = ch0, 1 = ch1)
 
     // Send an extra clock pulse
@@ -155,22 +160,21 @@ static unsigned char readByte()
     unsigned char data = 0;
 
     for (int i = 0; i < 16; i++)
-    {   
+    {
         // Pulse the clock so the ADC sets the next bit.
-        digitalWrite(CLK, HIGH); 
+        digitalWrite(CLK, HIGH);
         delayMicroseconds(20);
 
-        // The ADC sends MSBF byte first, then LSBF copy, 
+        // The ADC sends MSBF byte first, then LSBF copy,
         // so we ignore the latter but need to get it out of the buffer.
-        if(i > 7)
+        if (i > 7)
             continue;
-    
 
         // Read the bit, shift the bits over by one and append the new bit.
         int bit = digitalRead(DATA);
         data = (data << 1) | bit;
 
-        digitalWrite(CLK, LOW); 
+        digitalWrite(CLK, LOW);
         delayMicroseconds(20);
     }
 
