@@ -5,6 +5,8 @@ directions in the correct sequence to continue to the next level.
 
 Created by [Miles Murgaw](https://github.com/DogeDark) as a final project for CNIT 105 @ Purdue Polytechnic.
 
+<img src="https://raw.githubusercontent.com/DogeDark/memory-game/refs/heads/main/project.jpg" height="300">
+
 ### Features:
 
 - 8x8 LED Matrix for displaying directions, and other effects. Main display.
@@ -45,6 +47,8 @@ The game is organized into a single infinite while loop.
 
 ## Pin Descriptions
 Each file contains it's required pin definitions used by the wiringPi library. Each device has it's own PWR and GND, all connected to 5V, other than the joystick and ADC which uses 3.3V.
+
+<img src="https://raw.githubusercontent.com/DogeDark/memory-game/refs/heads/main/pins.jpg" height="300">
 
 ### Joystick
 The joystick uses an ADC for the analog inputs.
